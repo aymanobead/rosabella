@@ -103,7 +103,8 @@ async function renderCard(opts) {
   const {
     template, message, sender, receiver,
     widthMm, heightMm, dpi,
-    isPreview, previewW, previewH
+    isPreview, previewW, previewH,
+    canvasId = 'card-canvas'
   } = opts;
 
   currentTemplate = template;
@@ -127,7 +128,7 @@ async function renderCard(opts) {
   }
 
   // (Re)init canvas
-  initCanvas('card-canvas', canvasW, canvasH);
+  initCanvas(canvasId, canvasW, canvasH);
   fabricCanvas.clear();
   fabricCanvas.backgroundColor = '#ffffff';
 
@@ -257,9 +258,6 @@ async function addImageToCanvas(dataUrl, x, y, w, h) {
 async function renderFullResCard(opts) {
   const { widthMm, heightMm, dpi, template, message, sender, receiver } = opts;
 
-  const exportW = mmToPx(widthMm, dpi);
-  const exportH = mmToPx(heightMm, dpi);
-
   const tmpId = '__export_canvas__';
   let tmpEl = document.getElementById(tmpId);
   if (!tmpEl) {
@@ -269,26 +267,20 @@ async function renderFullResCard(opts) {
     document.body.appendChild(tmpEl);
   }
 
+  // Save and restore the preview canvas reference
   const origCanvas = fabricCanvas;
-
-  const fullCanvas = new fabric.Canvas(tmpId, {
-    width: exportW,
-    height: exportH,
-    selection: false,
-    renderOnAddRemove: false
-  });
-  fabricCanvas = fullCanvas;
 
   await renderCard({
     template, message, sender, receiver,
     widthMm, heightMm, dpi,
     isPreview: false,
-    previewW: exportW,
-    previewH: exportH
+    previewW: 0,
+    previewH: 0,
+    canvasId: tmpId
   });
 
-  const dataUrl = fullCanvas.toDataURL({ format: 'png', multiplier: 1 });
-  fullCanvas.dispose();
+  const dataUrl = fabricCanvas.toDataURL({ format: 'png', multiplier: 1 });
+  fabricCanvas.dispose();
   fabricCanvas = origCanvas;
 
   return dataUrl;

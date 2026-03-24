@@ -138,12 +138,6 @@ async function renderTextToImage(opts) {
   }).join('\n');
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
-    <defs>
-      <style>
-        @import url('../assets/fonts/fonts.css');
-        text { font-family: "${fontFamily}", Cairo, Arial, sans-serif; }
-      </style>
-    </defs>
     ${svgLines}
   </svg>`;
 
