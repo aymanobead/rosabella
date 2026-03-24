@@ -1,0 +1,33 @@
+{
+  "appName": "روزابلا",
+  "occasion": "المناسبة",
+  "template": "القالب",
+  "message": "الرسالة",
+  "messagePlaceholder": "اكتب رسالتك هنا...",
+  "sender": "اسم المرسل (اختياري)",
+  "senderPlaceholder": "اسم المرسل",
+  "receiver": "اسم المستلم (اختياري)",
+  "receiverPlaceholder": "اسم المستلم",
+  "cardSize": "حجم البطاقة",
+  "sizePreset": "الحجم المحدد",
+  "width": "العرض (مم)",
+  "height": "الارتفاع (مم)",
+  "dpi": "دقة التصدير",
+  "regenerate": "إعادة توليد",
+  "exportPng": "تصدير PNG",
+  "exportPdf": "تصدير PDF",
+  "print": "طباعة",
+  "occasions": {
+    "birthday": "عيد ميلاد",
+    "wedding": "زفاف",
+    "graduation": "تخرج",
+    "thankyou": "شكراً",
+    "love": "حب / رومانسي"
+  },
+  "presets": {
+    "a6": "A6 (105×148 مم)",
+    "a5": "A5 (148×210 مم)",
+    "10x15": "10×15 سم",
+    "custom": "مخصص"
+  }
+}

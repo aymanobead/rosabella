@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' file: data: blob:; script-src 'self' 'unsafe-inline' file:; style-src 'self' 'unsafe-inline' file:;">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rozabella – روزابلا</title>
+
+  <!-- Local fonts CSS -->
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
+  <!-- App styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ── Header ──────────────────────────────────────────── -->
+  <header id="app-header">
+    <h1 id="app-title">Rozabella</h1>
+    <button id="lang-toggle" title="Toggle Language / تغيير اللغة">العربية</button>
+  </header>
+
+  <!-- ── Main Layout ─────────────────────────────────────── -->
+  <div id="main-layout">
+
+    <!-- Left: Input Panel -->
+    <aside id="input-panel">
+
+      <!-- Occasion -->
+      <div class="form-group">
+        <label data-i18n="occasion">Occasion</label>
+        <select id="occasion-select"></select>
+      </div>
+
+      <!-- Template -->
+      <div class="form-group">
+        <label data-i18n="template">Template</label>
+        <select id="template-select"></select>
+      </div>
+
+      <hr class="divider">
+
+      <!-- Message -->
+      <div class="form-group">
+        <label data-i18n="message">Message</label>
+        <textarea
+          id="message-input"
+          data-i18n-placeholder="messagePlaceholder"
+          placeholder="Write your greeting message here..."
+          rows="5"
+          spellcheck="true"
+        ></textarea>
+      </div>
+
+      <!-- Receiver -->
+      <div class="form-group">
+        <label data-i18n="receiver">Receiver Name (optional)</label>
+        <input
+          type="text"
+          id="receiver-input"
+          data-i18n-placeholder="receiverPlaceholder"
+          placeholder="Receiver's name"
+        >
+      </div>
+
+      <!-- Sender -->
+      <div class="form-group">
+        <label data-i18n="sender">Sender Name (optional)</label>
+        <input
+          type="text"
+          id="sender-input"
+          data-i18n-placeholder="senderPlaceholder"
+          placeholder="Sender's name"
+        >
+      </div>
+
+      <hr class="divider">
+
+      <!-- Card Size -->
+      <div>
+        <div class="section-title" data-i18n="cardSize">Card Size</div>
+      </div>
+
+      <div class="form-group">
+        <label data-i18n="sizePreset">Size Preset</label>
+        <select id="size-preset">
+          <option value="a6">A6 (105×148 mm)</option>
+          <option value="a5">A5 (148×210 mm)</option>
+          <option value="10x15">10×15 cm</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+
+      <div id="custom-size-fields">
+        <div class="form-group">
+          <label data-i18n="width">Width (mm)</label>
+          <input type="number" id="width-input" value="105" min="50" max="500" step="1">
+        </div>
+        <div class="form-group">
+          <label data-i18n="height">Height (mm)</label>
+          <input type="number" id="height-input" value="148" min="50" max="500" step="1">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label data-i18n="dpi">Export DPI</label>
+        <input type="number" id="dpi-input" value="150" min="72" max="600" step="1">
+      </div>
+
+      <hr class="divider">
+
+      <!-- Actions -->
+      <div class="btn-group">
+        <button class="btn btn-outline" id="btn-regenerate" data-i18n="regenerate">
+          ↺ Regenerate
+        </button>
+        <button class="btn btn-primary" id="btn-export-png" data-i18n="exportPng">
+          ⬇ Export PNG
+        </button>
+        <button class="btn btn-primary" id="btn-export-pdf" data-i18n="exportPdf">
+          ⬇ Export PDF
+        </button>
+        <button class="btn btn-secondary" id="btn-print" data-i18n="print">
+          ✦ Print
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- Right: Preview Panel -->
+    <main id="preview-panel">
+      <div id="canvas-container">
+        <canvas id="card-canvas"></canvas>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Fabric.js v7 (UMD build) -->
+  <script src="../../node_modules/fabric/dist/index.min.js"></script>
+  <!-- Main UI controller -->
+  <script src="ui.js"></script>
+
+</body>
+</html>
