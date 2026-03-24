@@ -1,0 +1,43 @@
+name: Build Windows
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Windows distributables
+        run: npm run build:win
+
+      - name: Upload NSIS installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: Rozabella-Windows-Installer
+          path: dist/*.exe
+          if-no-files-found: error
+
+      - name: Upload portable (win-unpacked)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Rozabella-Windows-Portable
+          path: dist/win-unpacked/
+          if-no-files-found: warn
