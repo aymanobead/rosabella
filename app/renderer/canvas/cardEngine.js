@@ -9,6 +9,7 @@
 const { renderTextToImage, isRtlText } = require('./arabicText.js');
 const { ipcRenderer } = require('electron');
 const { PDFDocument } = require('pdf-lib');
+const fs = require('fs');
 
 let fabricCanvas = null;
 let currentTemplate = null;
@@ -50,12 +51,20 @@ async function getTemplatesPath() {
 
 /**
  * Load template background image using fabric 7 Promise-based API.
+ * Reads the local SVG file via fs and converts to a base64 data URL
+ * to avoid requiring webSecurity: false.
  * Returns a fabric.Image object set to fill the target dimensions.
  */
-async function loadBgImage(bgSrc, scaledW, scaledH) {
-  const img = await fabric.Image.fromURL(bgSrc, { crossOrigin: 'anonymous' });
+async function loadBgImage(bgAbsPath, scaledW, scaledH) {
+  // Read file via Node.js fs and convert to data URL (no file:// needed)
+  const fileBuffer = fs.readFileSync(bgAbsPath);
+  const b64 = fileBuffer.toString('base64');
+  const mime = bgAbsPath.endsWith('.svg') ? 'image/svg+xml' : 'image/png';
+  const dataUrl = `data:${mime};base64,${b64}`;
+
+  const img = await fabric.Image.fromURL(dataUrl);
   if (!img || !img.width) {
-    throw new Error(`Failed to load background: ${bgSrc}`);
+    throw new Error(`Failed to load background: ${bgAbsPath}`);
   }
   img.set({
     left: 0,
@@ -128,14 +137,11 @@ async function renderCard(opts) {
 
   // ── Background ──────────────────────────────────────────────────────────
   const basePath = await getTemplatesPath();
-  const separator = basePath.includes('\\') ? '\\' : '/';
-  const bgAbsPath = `${basePath}${separator}${template.background.replace(/\//g, separator)}`;
-  const bgSrcPath = process.platform === 'win32'
-    ? `file:///${bgAbsPath.replace(/\\/g, '/')}`
-    : `file://${bgAbsPath}`;
+  const path = require('path');
+  const bgAbsPath = path.join(basePath, template.background);
 
   try {
-    const bgImg = await loadBgImage(bgSrcPath, canvasW, canvasH);
+    const bgImg = await loadBgImage(bgAbsPath, canvasW, canvasH);
     fabricCanvas.add(bgImg);
   } catch (e) {
     console.warn('BG load failed, using solid color:', e.message);

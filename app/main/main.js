@@ -15,8 +15,7 @@ function createWindow() {
     title: 'Rozabella – روزابلا',
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
-      webSecurity: false  // allow loading local file:// assets
+      contextIsolation: false
     }
   });
 
