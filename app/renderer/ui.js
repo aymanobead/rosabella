@@ -3,7 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const { ipcRenderer } = require('electron');
-const { renderCard, exportPng, exportPdf } = require('./canvas/cardEngine.js');
+const { renderCard, exportPng, exportPdf, renderFullResCard } = require('./canvas/cardEngine.js');
 
 // ─── State ──────────────────────────────────────────────────────────────────
 let currentLang = 'en';
@@ -131,6 +131,15 @@ function setupEventListeners() {
   // Regenerate
   document.getElementById('btn-regenerate').addEventListener('click', renderPreview);
 
+  // Print mode toggle
+  document.getElementById('print-mode').addEventListener('change', () => {
+    const mode = document.getElementById('print-mode').value;
+    document.getElementById('print-a4-options').style.display =
+      mode === 'a4' ? 'flex' : 'none';
+  });
+  // Initialise visibility
+  document.getElementById('print-a4-options').style.display = 'none';
+
   // Export buttons
   document.getElementById('btn-export-png').addEventListener('click', handleExportPng);
   document.getElementById('btn-export-pdf').addEventListener('click', handleExportPdf);
@@ -234,7 +243,39 @@ async function handleExportPdf() {
 }
 
 async function handlePrint() {
-  await ipcRenderer.invoke('print-card');
+  if (!currentTemplate) return;
+  const message  = document.getElementById('message-input').value;
+  const sender   = document.getElementById('sender-input').value;
+  const receiver = document.getElementById('receiver-input').value;
+  const { w, h, dpi } = getCardDimensions();
+
+  const mode        = document.getElementById('print-mode').value;
+  const orientation = document.getElementById('print-orientation').value;
+  const layoutCount = parseInt(document.getElementById('print-layout').value, 10) || 1;
+  const marginMm    = parseFloat(document.getElementById('print-margin').value) || 0;
+
+  setButtonLoading('btn-print', true);
+  try {
+    const imageDataUrl = await renderFullResCard({
+      template: currentTemplate,
+      message, sender, receiver,
+      widthMm: w, heightMm: h, dpi
+    });
+
+    await ipcRenderer.invoke('print-card', {
+      mode,
+      cardWmm: w,
+      cardHmm: h,
+      orientation,
+      layoutCount,
+      marginMm,
+      imageDataUrl
+    });
+  } catch (err) {
+    console.error('Print error:', err);
+  } finally {
+    setButtonLoading('btn-print', false);
+  }
 }
 
 function setButtonLoading(id, loading) {

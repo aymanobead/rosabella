@@ -119,6 +119,47 @@
         <button class="btn btn-primary" id="btn-export-pdf" data-i18n="exportPdf">
           ⬇ Export PDF
         </button>
+      </div>
+
+      <hr class="divider">
+
+      <!-- Print Options -->
+      <div>
+        <div class="section-title" data-i18n="printOptions">Print Options</div>
+      </div>
+
+      <div class="form-group">
+        <label data-i18n="printMode">Print Mode</label>
+        <select id="print-mode">
+          <option value="card-page" data-i18n="printModeCardPage">Card on its own page</option>
+          <option value="a4" data-i18n="printModeA4">A4 Sheet (multi-up)</option>
+        </select>
+      </div>
+
+      <div id="print-a4-options">
+        <div class="form-group">
+          <label data-i18n="printOrientation">Orientation</label>
+          <select id="print-orientation">
+            <option value="portrait" data-i18n="printOrientationPortrait">Portrait</option>
+            <option value="landscape" data-i18n="printOrientationLandscape">Landscape</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label data-i18n="printLayout">Cards per sheet</label>
+          <select id="print-layout">
+            <option value="1" data-i18n="printLayout1">1 card</option>
+            <option value="2" data-i18n="printLayout2">2 cards</option>
+            <option value="4" data-i18n="printLayout4">4 cards</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label data-i18n="printMargin">Margin (mm)</label>
+        <input type="number" id="print-margin" value="10" min="0" max="50" step="1">
+      </div>
+
+      <div class="btn-group">
         <button class="btn btn-secondary" id="btn-print" data-i18n="print">
           ✦ Print
         </button>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' file: data: blob:; script-src 'self' 'unsafe-inline' file:; style-src 'self' 'unsafe-inline' file:;">
+  <title>Print</title>
+  <style id="page-style"></style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #fff; }
+    .print-page {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-slot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .card-slot img {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="print-page" id="print-page"></div>
+
+  <script>
+    'use strict';
+    const { ipcRenderer } = require('electron');
+
+    ipcRenderer.once('print-data', (event, data) => {
+      const {
+        mode,
+        cardWmm,
+        cardHmm,
+        orientation,
+        layoutCount,
+        marginMm,
+        imageDataUrl
+      } = data;
+
+      const pageStyleEl = document.getElementById('page-style');
+      const printPage   = document.getElementById('print-page');
+      const margin = (typeof marginMm === 'number' && marginMm >= 0) ? marginMm : 10;
+
+      if (mode === 'card-page') {
+        // ── Mode 1: page size == card size ──────────────────────────────────
+        pageStyleEl.textContent = `
+          @page {
+            size: ${cardWmm}mm ${cardHmm}mm;
+            margin: ${margin}mm;
+          }
+          html, body {
+            width: ${cardWmm}mm;
+            height: ${cardHmm}mm;
+          }
+          .print-page {
+            width: 100%;
+            height: 100%;
+          }
+          .card-slot {
+            width: 100%;
+            height: 100%;
+          }
+          .card-slot img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+          }
+        `;
+
+        const slot = document.createElement('div');
+        slot.className = 'card-slot';
+        const img = document.createElement('img');
+        img.src = imageDataUrl;
+        slot.appendChild(img);
+        printPage.appendChild(slot);
+
+      } else {
+        // ── Mode 2: A4 sheet (multi-up) ─────────────────────────────────────
+        const isLandscape = (orientation === 'landscape');
+        const pageWmm = isLandscape ? 297 : 210;
+        const pageHmm = isLandscape ? 210 : 297;
+
+        const count = parseInt(layoutCount, 10) || 1;
+
+        // Grid dimensions
+        let cols, rows;
+        if (count <= 1)      { cols = 1; rows = 1; }
+        else if (count === 2) { cols = 1; rows = 2; }
+        else if (count <= 4)  { cols = 2; rows = 2; }
+        else                  { cols = Math.ceil(Math.sqrt(count)); rows = Math.ceil(count / cols); }
+
+        const gutterMm = 5;
+        const availW = pageWmm - 2 * margin;
+        const availH = pageHmm - 2 * margin;
+        const slotW  = (availW - gutterMm * (cols - 1)) / cols;
+        const slotH  = (availH - gutterMm * (rows - 1)) / rows;
+
+        // Scale card uniformly to fit within slot
+        const scale  = Math.min(slotW / cardWmm, slotH / cardHmm, 1);
+        const imgW   = cardWmm * scale;
+        const imgH   = cardHmm * scale;
+
+        pageStyleEl.textContent = `
+          @page {
+            size: ${isLandscape ? 'A4 landscape' : 'A4 portrait'};
+            margin: ${margin}mm;
+          }
+          html, body {
+            width: ${pageWmm}mm;
+          }
+          .print-page {
+            width: ${availW}mm;
+            display: grid;
+            grid-template-columns: repeat(${cols}, ${slotW}mm);
+            grid-template-rows: repeat(${rows}, ${slotH}mm);
+            gap: ${gutterMm}mm;
+            justify-content: center;
+            align-content: center;
+          }
+          .card-slot {
+            width: ${slotW}mm;
+            height: ${slotH}mm;
+          }
+          .card-slot img {
+            width: ${imgW}mm;
+            height: ${imgH}mm;
+            object-fit: contain;
+          }
+        `;
+
+        for (let i = 0; i < count; i++) {
+          const slot = document.createElement('div');
+          slot.className = 'card-slot';
+          const img = document.createElement('img');
+          img.src = imageDataUrl;
+          slot.appendChild(img);
+          printPage.appendChild(slot);
+        }
+      }
+
+      // Wait for all images to load, then notify main process
+      const imgs = printPage.querySelectorAll('img');
+      let pending = imgs.length;
+
+      function onImageReady() {
+        pending -= 1;
+        if (pending <= 0) {
+          ipcRenderer.send('print-ready');
+        }
+      }
+
+      if (pending === 0) {
+        ipcRenderer.send('print-ready');
+      } else {
+        imgs.forEach(img => {
+          if (img.complete) {
+            onImageReady();
+          } else {
+            img.addEventListener('load',  onImageReady, { once: true });
+            img.addEventListener('error', onImageReady, { once: true });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

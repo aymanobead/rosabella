@@ -317,4 +317,4 @@ async function exportPdf(opts) {
   return ipcRenderer.invoke('save-pdf', Array.from(pdfBytes));
 }
 
-module.exports = { initCanvas, renderCard, exportPng, exportPdf, mmToPx };
+module.exports = { initCanvas, renderCard, renderFullResCard, exportPng, exportPdf, mmToPx };

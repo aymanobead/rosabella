@@ -165,6 +165,13 @@ textarea {
   flex: 1;
 }
 
+/* ─── Print Options ─────────────────────────────────────────────────────────── */
+#print-a4-options {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .size-row {
   display: flex;
   gap: 10px;

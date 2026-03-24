@@ -60,15 +60,51 @@ ipcMain.handle('save-pdf', async (event, pdfBytes) => {
 });
 
 // ── IPC: Print ─────────────────────────────────────────────────────────────
-ipcMain.handle('print-card', async () => {
+ipcMain.handle('print-card', async (event, payload) => {
   if (!mainWindow) return { success: false };
+
+  const printHtmlPath = path.join(__dirname, 'print', 'print.html');
+
   return new Promise((resolve) => {
-    mainWindow.webContents.print(
-      { silent: false, printBackground: true },
-      (success, errorType) => {
-        resolve({ success, errorType });
+    let resolved = false;
+
+    const printWin = new BrowserWindow({
+      show: false,
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false
       }
-    );
+    });
+
+    // Clean up helper — idempotent
+    function closePrint() {
+      if (!printWin.isDestroyed()) printWin.close();
+    }
+
+    // Once the card layout is ready, trigger the system print dialog
+    function onPrintReady() {
+      printWin.webContents.print(
+        { silent: false, printBackground: true },
+        (success, errorType) => {
+          closePrint();
+          if (!resolved) { resolved = true; resolve({ success, errorType }); }
+        }
+      );
+    }
+
+    ipcMain.once('print-ready', onPrintReady);
+
+    printWin.loadFile(printHtmlPath);
+
+    printWin.webContents.once('did-finish-load', () => {
+      printWin.webContents.send('print-data', payload || {});
+    });
+
+    // Fallback: if window is destroyed before printing, clean up and resolve
+    printWin.on('closed', () => {
+      ipcMain.removeListener('print-ready', onPrintReady);
+      if (!resolved) { resolved = true; resolve({ success: false, errorType: 'window-closed' }); }
+    });
   });
 });
 
