@@ -1,0 +1,29 @@
+appId: com.rozabella.app
+productName: Rozabella
+copyright: "Copyright © 2024 Rozabella"
+
+directories:
+  output: dist
+
+files:
+  - app/**/*
+  - package.json
+  - node_modules/**/*
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Rozabella
+
+extraResources:
+  - from: app/assets/fonts
+    to: fonts
+  - from: app/assets/templates
+    to: templates

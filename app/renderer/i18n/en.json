@@ -1,0 +1,33 @@
+{
+  "appName": "Rozabella",
+  "occasion": "Occasion",
+  "template": "Template",
+  "message": "Message",
+  "messagePlaceholder": "Write your greeting message here...",
+  "sender": "Sender Name (optional)",
+  "senderPlaceholder": "Sender's name",
+  "receiver": "Receiver Name (optional)",
+  "receiverPlaceholder": "Receiver's name",
+  "cardSize": "Card Size",
+  "sizePreset": "Size Preset",
+  "width": "Width (mm)",
+  "height": "Height (mm)",
+  "dpi": "Export DPI",
+  "regenerate": "Regenerate",
+  "exportPng": "Export PNG",
+  "exportPdf": "Export PDF",
+  "print": "Print",
+  "occasions": {
+    "birthday": "Birthday",
+    "wedding": "Wedding",
+    "graduation": "Graduation",
+    "thankyou": "Thank You",
+    "love": "Love / Romantic"
+  },
+  "presets": {
+    "a6": "A6 (105×148 mm)",
+    "a5": "A5 (148×210 mm)",
+    "10x15": "10×15 cm",
+    "custom": "Custom"
+  }
+}

@@ -1,0 +1,97 @@
+[
+  {
+    "id": "wedding_01",
+    "occasion": "wedding",
+    "name": "Classic Wedding",
+    "background": "wedding/wedding_01.svg",
+    "textArea": { "x": 120, "y": 220, "w": 760, "h": 420 },
+    "nameAreas": {
+      "receiver": { "x": 120, "y": 140, "w": 760, "h": 60 },
+      "sender":   { "x": 120, "y": 680, "w": 760, "h": 60 }
+    },
+    "styles": {
+      "messageFont": "Cairo",
+      "messageColor": "#4a3728",
+      "maxFontSize": 64,
+      "minFontSize": 18,
+      "lineHeight": 1.4,
+      "align": "center"
+    }
+  },
+  {
+    "id": "birthday_01",
+    "occasion": "birthday",
+    "name": "Happy Birthday",
+    "background": "birthday/birthday_01.svg",
+    "textArea": { "x": 120, "y": 240, "w": 760, "h": 380 },
+    "nameAreas": {
+      "receiver": { "x": 120, "y": 160, "w": 760, "h": 60 },
+      "sender":   { "x": 120, "y": 660, "w": 760, "h": 60 }
+    },
+    "styles": {
+      "messageFont": "Cairo",
+      "messageColor": "#2d1b69",
+      "maxFontSize": 60,
+      "minFontSize": 18,
+      "lineHeight": 1.35,
+      "align": "center"
+    }
+  },
+  {
+    "id": "graduation_01",
+    "occasion": "graduation",
+    "name": "Congratulations Graduate",
+    "background": "graduation/graduation_01.svg",
+    "textArea": { "x": 120, "y": 240, "w": 760, "h": 380 },
+    "nameAreas": {
+      "receiver": { "x": 120, "y": 160, "w": 760, "h": 60 },
+      "sender":   { "x": 120, "y": 660, "w": 760, "h": 60 }
+    },
+    "styles": {
+      "messageFont": "Cairo",
+      "messageColor": "#1a3a1a",
+      "maxFontSize": 60,
+      "minFontSize": 18,
+      "lineHeight": 1.35,
+      "align": "center"
+    }
+  },
+  {
+    "id": "thankyou_01",
+    "occasion": "thankyou",
+    "name": "Thank You",
+    "background": "thankyou/thankyou_01.svg",
+    "textArea": { "x": 120, "y": 220, "w": 760, "h": 420 },
+    "nameAreas": {
+      "receiver": { "x": 120, "y": 140, "w": 760, "h": 60 },
+      "sender":   { "x": 120, "y": 680, "w": 760, "h": 60 }
+    },
+    "styles": {
+      "messageFont": "Cairo",
+      "messageColor": "#2b3d2b",
+      "maxFontSize": 60,
+      "minFontSize": 18,
+      "lineHeight": 1.4,
+      "align": "center"
+    }
+  },
+  {
+    "id": "love_01",
+    "occasion": "love",
+    "name": "Love & Romance",
+    "background": "love/love_01.svg",
+    "textArea": { "x": 120, "y": 230, "w": 760, "h": 400 },
+    "nameAreas": {
+      "receiver": { "x": 120, "y": 150, "w": 760, "h": 60 },
+      "sender":   { "x": 120, "y": 670, "w": 760, "h": 60 }
+    },
+    "styles": {
+      "messageFont": "Cairo",
+      "messageColor": "#5c0a2e",
+      "maxFontSize": 60,
+      "minFontSize": 18,
+      "lineHeight": 1.4,
+      "align": "center"
+    }
+  }
+]

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="1000" height="800">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e8f5e9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f1f8e9;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="800" fill="url(#bg3)"/>
+  <!-- Classic academic border -->
+  <rect x="18" y="18" width="964" height="764" fill="none" stroke="#2e7d32" stroke-width="4"/>
+  <rect x="30" y="30" width="940" height="740" fill="none" stroke="#ffd700" stroke-width="2"/>
+  <rect x="38" y="38" width="924" height="724" fill="none" stroke="#2e7d32" stroke-width="1" stroke-dasharray="10,5"/>
+  <!-- Graduation cap top center -->
+  <g transform="translate(500,70)">
+    <!-- Cap top (mortarboard) -->
+    <polygon points="-50,0 50,0 80,20 -80,20" fill="#1a237e"/>
+    <rect x="-8" y="20" width="16" height="30" fill="#1a237e"/>
+    <!-- Tassel -->
+    <line x1="50" y1="10" x2="70" y2="40" stroke="#ffd700" stroke-width="2"/>
+    <line x1="70" y1="40" x2="70" y2="65" stroke="#ffd700" stroke-width="2"/>
+    <circle cx="70" cy="65" r="5" fill="#ffd700"/>
+    <!-- Cap brim shine -->
+    <ellipse cx="0" cy="20" rx="80" ry="8" fill="#3949ab" opacity="0.5"/>
+  </g>
+  <!-- Diploma scroll at bottom -->
+  <g transform="translate(500,750)" opacity="0.5">
+    <rect x="-80" y="-20" width="160" height="30" fill="#fff9c4" stroke="#ffd700" stroke-width="1.5" rx="4"/>
+    <line x1="-60" y1="-12" x2="60" y2="-12" stroke="#ffd700" stroke-width="1"/>
+    <line x1="-50" y1="-5" x2="50" y2="-5" stroke="#ffd700" stroke-width="0.7"/>
+    <circle cx="-90" cy="-5" r="12" fill="#ffd700"/>
+    <circle cx="90" cy="-5" r="12" fill="#ffd700"/>
+  </g>
+  <!-- Stars of achievement -->
+  <g fill="#ffd700" opacity="0.6">
+    <polygon points="60,60 64,73 77,73 67,81 71,94 60,86 49,94 53,81 43,73 56,73"/>
+    <polygon points="940,60 944,73 957,73 947,81 951,94 940,86 929,94 933,81 923,73 936,73"/>
+    <polygon points="60,740 64,753 77,753 67,761 71,774 60,766 49,774 53,761 43,753 56,753"/>
+    <polygon points="940,740 944,753 957,753 947,761 951,774 940,766 929,774 933,761 923,753 936,753"/>
+  </g>
+  <!-- Laurel wreath hints at sides -->
+  <g opacity="0.15" fill="#2e7d32">
+    <ellipse cx="80" cy="400" rx="40" ry="200" transform="rotate(-15,80,400)"/>
+    <ellipse cx="920" cy="400" rx="40" ry="200" transform="rotate(15,920,400)"/>
+  </g>
+  <!-- Dividers -->
+  <line x1="100" y1="220" x2="900" y2="220" stroke="#2e7d32" stroke-width="0.8" opacity="0.4"/>
+  <line x1="100" y1="640" x2="900" y2="640" stroke="#2e7d32" stroke-width="0.8" opacity="0.4"/>
+</svg>

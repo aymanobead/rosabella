@@ -1,0 +1,35 @@
+/*
+  Arabic-friendly fonts for Rozabella
+  Place font files in this directory:
+    - Cairo-Regular.ttf
+    - Cairo-SemiBold.ttf
+    - Amiri-Regular.ttf
+
+  Download from Google Fonts:
+    https://fonts.google.com/specimen/Cairo
+    https://fonts.google.com/specimen/Amiri
+*/
+
+@font-face {
+  font-family: 'Cairo';
+  src: local('Cairo'),
+       url('./Cairo-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cairo';
+  src: local('Cairo SemiBold'),
+       url('./Cairo-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Amiri';
+  src: local('Amiri'),
+       url('./Amiri-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
